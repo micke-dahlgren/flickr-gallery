@@ -1,0 +1,33 @@
+:root{
+    --spinner-size: 24px;
+    --spinner-size-half: 12px;
+    --animation-time: 2s;
+}
+
+.spin {
+    -webkit-animation:spin var(--animation-time) linear infinite;
+    -moz-animation:spin var(--animation-time) linear infinite;
+    animation:spin var(--animation-time) linear infinite;
+    width:var(--spinner-size);
+    height:var(--spinner-size);
+    color:var(white);
+}
+@-moz-keyframes spin { 
+    100% { -moz-transform: rotate(360deg); } 
+}
+@-webkit-keyframes spin { 
+    100% { -webkit-transform: rotate(360deg); } 
+}
+@keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+        transform:rotate(360deg); 
+    } 
+}
+
+.search-button{
+    max-width: 5rem;
+    min-width: 5rem;
+    min-height: 2.5rem;
+    max-height: 2.5rem;
+}
