@@ -1,4 +1,3 @@
-
 function extractPropertyValues(arr, key){
     let ret = [];
     arr.forEach(itm => {
@@ -37,17 +36,18 @@ export function handleFlickrFeed(data, prevData) {
     Solution: Use the image url as a unique identifier
     */
     // image url located in item.media.m
-    let dataIdValue = extractPropertyValues(extractPropertyValues(data, 'media'), 'm');
-    let prevDataIdValue = extractPropertyValues(extractPropertyValues(prevData, 'media'), 'm');
+    const dataIdValues = extractPropertyValues(extractPropertyValues(data, 'media'), 'm');
+    const prevDataIdValues = extractPropertyValues(extractPropertyValues(prevData, 'media'), 'm');
 
-    // Get ids that are not in previous data set
-    let differenceIdValues = [];
-    dataIdValue.forEach(val => {
-        if (!prevDataIdValue.includes(val)) {
-            differenceIdValues.push(val);
+
+    let hasNewData = false;
+    dataIdValues.forEach(val => {
+        if (!prevDataIdValues.includes(val)) {
+            hasNewData = true;
+            return;
         }
     })
-    if (differenceIdValues.length <= 0) {
+    if (!hasNewData) {
         return null;
     }
 
