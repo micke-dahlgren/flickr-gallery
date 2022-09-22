@@ -1,9 +1,6 @@
-
 import React from "react";
-import { Form } from 'react-bootstrap';
-export default function SearchBar({ checked, callback }) {
-
-
+import { Form } from "react-bootstrap";
+export default function Switch({ checked, callback }) {
   return (
     <div>
       <Form>
@@ -17,5 +14,4 @@ export default function SearchBar({ checked, callback }) {
       </Form>
     </div>
   );
- 
 }
