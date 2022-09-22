@@ -1,76 +1,75 @@
-:root{
+:root {
   --fade-speed: 600ms;
 }
 
-.gallery{
+.gallery {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  position:relative;
+  position: relative;
 }
 
-.img-wrapper{
+.img-wrapper {
   flex-grow: 1; /* default 0 */
-  margin:0.25rem;
-  display:grid;
-  place-items:center;
-  overflow:hidden;
+  margin: 0.25rem;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
   max-width: 22rem;
   width: 45%;
   animation: introduce 1s linear both;
   animation-delay: 100ms;
-  opacity:1;
+  opacity: 1;
 }
 
-.img-wrapper:hover{
+.img-wrapper:hover {
   outline: 2px solid var(--bs-primary);
 }
 
-.img-wrapper:nth-child(1){
+.img-wrapper:nth-child(1) {
   animation-delay: 0ms;
 }
-.img-wrapper:nth-child(2){
+.img-wrapper:nth-child(2) {
   animation-delay: 20ms;
 }
-.img-wrapper:nth-child(3){
+.img-wrapper:nth-child(3) {
   animation-delay: 40ms;
 }
-.img-wrapper:nth-child(4){
+.img-wrapper:nth-child(4) {
   animation-delay: 60ms;
 }
-.img-wrapper:nth-child(5){
+.img-wrapper:nth-child(5) {
   animation-delay: 80ms;
 }
 
+.img-wrapper > img {
+  min-height: 100%;
+  min-width: 100%;
+  object-fit: "cover";
+}
 
-.img-wrapper > img{
-    min-height:100%;
-    min-width:100%;
-    object-fit:"cover";
+@media screen and (min-width: 920px) {
+  .gallery:after {
+    content: "";
+    flex: auto;
   }
+  .img-wrapper {
+    width: auto;
+    opacity: 0.75;
+  }
+}
 
-  @media screen and (min-width: 920px) {
-    .gallery:after {
-      content: "";
-      flex: auto;
-    }
-    .img-wrapper{
-      width: auto;
-      opacity:0.75;
-    }    
+@keyframes introduce {
+  0% {
+    opacity: 0;
+    transform: translateY(1rem);
   }
-
-  @keyframes introduce {
-    0% {
-      opacity: 0;
-      transform: translateY(1rem);
-    }
-    40% {
-      opacity: 0;
-    }
-    100% {
-      filter:blur(0);
-      opacity: 1;
-      transform: translateY(0);
-    }
+  40% {
+    opacity: 0;
   }
+  100% {
+    filter: blur(0);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
