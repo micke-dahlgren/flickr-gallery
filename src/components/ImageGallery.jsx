@@ -1,22 +1,24 @@
 import React from "react";
-
 import "./ImageGallery.css";
-export default function ImageGallery({ images, handleClick }) {
+
+export default function ImageGallery({ title, images, handleClick }) {
   return (
     <div className="gallery">
-      {images?.length > 0 &&
-        images.map((item, idx) => {
-          return (
-            <div
-              onClick={() => handleClick(idx)}
-              className="img-wrapper"
-              style={{ cursor: "pointer" }}
-              key={item.title + idx.toString()}
-            >
-              <img src={item.media.m} alt="" />
-            </div>
-          );
-        })}
+      <p className="gallery__title">{title}</p>
+      <div className="gallery__content">
+        {images?.length > 0 &&
+          images.map((item, idx) => {
+            return (
+              <div
+                onClick={() => handleClick(idx)}
+                className="gallery__img-wrapper"
+                key={item.title + idx.toString()}
+              >
+                <img src={item.media.m} alt="" />
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 }

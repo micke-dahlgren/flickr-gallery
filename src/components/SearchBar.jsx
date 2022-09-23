@@ -12,7 +12,7 @@ export default function SearchBar({ loading, callback }) {
   const spinnerIcon = () => {
     return (
       <svg
-        className="spin"
+        className="searchbar__spin-icon"
         width="1024"
         height="1024"
         viewBox="0 0 1024 1024"
@@ -41,7 +41,7 @@ export default function SearchBar({ loading, callback }) {
           />
           <Button
             variant="primary"
-            className="search-button"
+            className="searchbar__submit-btn"
             id="search-button"
             type="submit"
             disabled={loading}

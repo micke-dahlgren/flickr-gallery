@@ -4,7 +4,15 @@
   --animation-time: 2s;
 }
 
-.spin {
+.searchbar__submit-btn {
+  max-width: 5rem;
+  min-width: 5rem;
+  min-height: 2.5rem;
+  max-height: 2.5rem;
+}
+
+
+.searchbar__spin-icon {
   -webkit-animation: spin var(--animation-time) linear infinite;
   -moz-animation: spin var(--animation-time) linear infinite;
   animation: spin var(--animation-time) linear infinite;
@@ -29,9 +37,3 @@
   }
 }
 
-.search-button {
-  max-width: 5rem;
-  min-width: 5rem;
-  min-height: 2.5rem;
-  max-height: 2.5rem;
-}

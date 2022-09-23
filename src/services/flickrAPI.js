@@ -23,22 +23,16 @@ export default async function fetchFlickr(query, prevData) {
 
   const payload = await fetchFromFlickr
     .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(response);
+      return response.ok ? response.json() : Promise.reject(response);
     })
     .then((res) => {
-      if (!validFlickrFeed(res)) {
-        throw "Invalid data";
-      }
+      if (!validFlickrFeed(res)) throw "Invalid data";
 
       const feed = handleFlickrFeed(res.items, data.items);
       /* if feed === null then the request gave no new data, no need to re-render */
-      if (feed !== null) {
+      if (feed) {
         data.items = feed;
-        data.title =
-          feed.length === 0 ? `Could not find images for ${query}` : res?.title;
+        data.title = feed.length === 0 ? `Could not find images for ${query}` : res?.title;
       }
       data.isLoading = false;
       return data;

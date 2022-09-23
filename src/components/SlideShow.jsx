@@ -3,15 +3,19 @@ import { Button } from "react-bootstrap";
 import { useInterval } from "../hooks/useInterval";
 import "./SlideShow.css";
 
-export default function SlideShow({ images, handleClose, startAtIndex }) {
-  const [imgIndex, setImgIndex] = useState(0);
-  const slideShowSpeedSec = 8; 
-  const slideShowSpeedMs = slideShowSpeedSec * 1000; 
-  const [countdown, setCountdown] = useState(0);
+export default function SlideShow({
+  images,
+  handleClose,
+  startAtIndex
+}) {
+  const slideShowSpeedSec = 8;
   const scrollContainerRef = useRef();
   const thumbnailRef = useRef();
+  const [imgIndex, setImgIndex] = useState(0);
+  const [countdown, setCountdown] = useState(0);
 
-  const spinnerSvg = () => {
+
+  const crossSVG = () => {
     return (
       <svg
         width="14"
@@ -28,11 +32,11 @@ export default function SlideShow({ images, handleClose, startAtIndex }) {
     );
   };
 
-  const loadbarStyles = {
+  const loadbarCssAnimation = {
     background: "var(--bs-primary)",
     height: "4px",
-    width: (countdown/slideShowSpeedSec) * 120 + "vw",
     maxWidth: "100vw",
+    width: (countdown / slideShowSpeedSec) * 120 + "vw",
     transition: countdown === 0 ? "none" : "width " + 1000 + "ms linear",
   };
 
@@ -61,16 +65,16 @@ export default function SlideShow({ images, handleClose, startAtIndex }) {
 
   // play carouselle
   useEffect(() => {
-		setCountdown(0);
+    setCountdown(0);
     const interval = setInterval(() => {
       autoPlay();
-    }, slideShowSpeedMs);
+    }, slideShowSpeedSec * 1000);
     return () => clearInterval(interval);
   }, [imgIndex, images]);
 
+
   useEffect(() => {
     setImgIndex(startAtIndex);
-    setCountdown(0);
   }, [startAtIndex]);
 
   // countdown for loading bar
@@ -80,23 +84,23 @@ export default function SlideShow({ images, handleClose, startAtIndex }) {
 
   return (
     <>
-      <div onClick={handleClose} className="slide-container">
-        <Button variant="secondary" className="close-btn">
-          {spinnerSvg()}
+      <div onClick={handleClose} className="slide-show">
+        <Button variant="secondary" className="slide-show__close-btn">
+          {crossSVG()}
         </Button>
-        <div className="displayed-image">
+        <div className="slide-show__displayed-image">
           {images.length > 0 && (
             <img
               src={images[imgIndex]?.media?.m}
               onClick={(e) => {
                 e.stopPropagation();
               }}
-              alt=""
+              alt={images[imgIndex]?.title}
             />
           )}
         </div>
-        <div style={loadbarStyles}></div>
-        <div ref={scrollContainerRef} className="thumbnail-scrollable-row">
+        <div style={loadbarCssAnimation}></div>
+        <div ref={scrollContainerRef} className="thumbnails">
           {images.map((item, idx) => {
             return (
               <div
@@ -104,17 +108,16 @@ export default function SlideShow({ images, handleClose, startAtIndex }) {
                 id={idx}
                 className={
                   parseInt(idx) === imgIndex
-                    ? "img-thumb selected"
-                    : "img-thumb"
+                    ? "thumbnails__img selected"
+                    : "thumbnails__img"
                 }
                 key={item.title + idx.toString()}
                 onClick={(e) => {
                   e.stopPropagation();
                   setImgIndex(idx);
-                  setCountdown(0);
                 }}
               >
-                <img src={item?.media?.m} alt="" />
+                <img src={item?.media?.m} alt={item?.title} />
               </div>
             );
           })}

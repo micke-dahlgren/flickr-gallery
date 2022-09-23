@@ -29,6 +29,7 @@ input[type=text], textarea {
   border-color: #393939!important;
   color:rgb(202, 202, 202)!important;
 }
+
 input[type=checkbox]{
   cursor:pointer;
 }
@@ -39,5 +40,5 @@ input[type=checkbox]:checked {
 
 *:focus {
   outline: none!important;
-  box-shadow: 0 0 0 1px var(--bs-primary);
+  box-shadow: 0 0 0 1px var(--bs-primary)!important;
 }

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+/* data */
+import {tags} from './data/searchQueries.json';
 /* components */
 import { Container } from "react-bootstrap";
 import ImageGallery from "./components/ImageGallery";
 import SearchBar from "./components/SearchBar";
 import SlideShow from "./components/SlideShow";
-import Switch from "./components/Switch";
+import PollSwitch from "./components/PollSwitch";
+import ErrorMessage from './components/ErrorMessage';
 
 /* hooks */
 import { useInterval } from "./hooks/useInterval";
@@ -17,7 +19,6 @@ function App() {
   /* ---- STATES  ---- */
   /* short-polling */
   const pollIntervalSec = 10;
-  const pollIntervalMs = pollIntervalSec * 1000;
   const [countdown, setCountdown] = useState(0);
   const [doPolling, setDoPolling] = useState(false);
 
@@ -32,6 +33,7 @@ function App() {
   /* window */
   const [scrollPos, setScrollPos] = useState(0);
 
+
   /* ---- FETCH  ---- */
   async function fetchData() {
     const response = await fetchFlickr(activeQuery, data);
@@ -40,16 +42,6 @@ function App() {
 
   /* perform a random query on mount */
   useEffect(() => {
-    const tags = [
-      "mountains",
-      "hubble",
-      "kittens",
-      "dogs",
-      "nature",
-      "pattern",
-      "vintage car",
-      "flowers",
-    ];
     const initQuery = tags[Math.floor(Math.random() * tags.length)];
     setActiveQuery(initQuery);
   }, []);
@@ -62,15 +54,7 @@ function App() {
   }, [activeQuery]);
 
   /* ---- SHORT-POLLING  ---- */
-  /* Set interval for short-polling */
-  useInterval(
-    () => {
-      fetchData();
-    },
-    playSlideShow || !doPolling ? null : pollIntervalMs
-  );
-
-  /* set interval for countdown til next poll */
+  /* set interval for short polling */
   useInterval(
     () => {
       if (countdown > 0) {
@@ -78,6 +62,8 @@ function App() {
       } else {
         setCountdown(pollIntervalSec - 1);
       }
+      countdown === 1 && fetchData();
+
     },
     playSlideShow || !doPolling ? null : 1000
   );
@@ -117,46 +103,28 @@ function App() {
     setDoPolling((prevDoPolling) => !prevDoPolling);
     doPolling ? setCountdown(0) : setCountdown(pollIntervalSec - 1);
   };
+
   return (
     <div className="App">
       <Container className="pt-3">
-        <div className="d-flex pb-2">
-          <Switch checked={doPolling} callback={handleSwitch} />
-          {countdown > 0 && (
-            <p style={{ margin: 0, padding: 0, marginLeft: "0.25rem" }}>
-              ({countdown})
-            </p>
-          )}
-        </div>
+        
+        <PollSwitch checked={doPolling} callback={handleSwitch} countdown={countdown} />
 
         <SearchBar
           loading={data?.isLoading || false}
           callback={handleSearchSubmit}
         />
 
-        <p style={{ fontWeight: "bold" }}>{data?.title}</p>
-        <ImageGallery images={data?.items} handleClick={handleGalleryClick} />
+        
+        <ImageGallery title={data?.title} images={data?.items} handleClick={handleGalleryClick} />
 
-        {playSlideShow && (
-          <SlideShow
-            images={data?.items}
-            startAtIndex={slideShowStartIdx}
-            handleClose={() => setPlaySlideShow(false)}
-          />
-        )}
+        {playSlideShow && <SlideShow
+          images={data?.items}
+          startAtIndex={slideShowStartIdx}
+          handleClose={() => setPlaySlideShow(false)}
+        /> }
 
-        {data?.error?.length > 0 && (
-          <h2
-            style={{
-              color: "var(--bs-danger)",
-              marginTop: "25vh",
-              width: "100%",
-              textAlign: "center",
-            }}
-          >
-            {data?.error}
-          </h2>
-        )}
+        <ErrorMessage error={data?.error} />
       </Container>
     </div>
   );
