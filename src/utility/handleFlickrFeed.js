@@ -43,15 +43,11 @@ export function handleFlickrFeed(data, prevData) {
   );
 
   let hasNewData = false;
-
-  for(let i = 0; i<dataIdValues.length; i++){
-    const val = dataIdValues[i];
+  dataIdValues.forEach((val) => {
     if (!prevDataIdValues.includes(val)) {
       hasNewData = true;
-      return;
     }
-  }
-
+  });
   if (!hasNewData) {
     return null;
   }
