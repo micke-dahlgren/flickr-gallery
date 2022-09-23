@@ -6,5 +6,6 @@ export default defineConfig({
   server:{
     port: 5000
   },
+  base:'/flickr-gallery/',
   plugins: [react()]
 })
